@@ -39,7 +39,7 @@ func splitArray(arr []int, splitNum int) [][]int {
 func main() {
 
 	if len(os.Args) != 3 {
-        fmt.Println("Usage: go run . 'your text'")
+        fmt.Println("Usage: go run . 'your text' 'required arg")
         os.Exit(1)
     }
 
