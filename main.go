@@ -37,10 +37,8 @@ func splitArray(arr []int, splitNum int) [][]int {
 }
 
 func main() {
-	// declare the string to be stored in
-	var typeOfAscii string
 
-	if len(os.Args) != 2 {
+	if len(os.Args) != 3 {
         fmt.Println("Usage: go run . 'your text'")
         os.Exit(1)
     }
@@ -50,30 +48,18 @@ func main() {
 
 	// Replace the escape sequence "\n" with an actual newline character
 	inputString = strings.ReplaceAll(inputString, "\\n", "\n")
-	
-	// declare a condition for the while
-	condition := false
 
-	for !condition {
-		// prompt user to enter a type
-		fmt.Print("enter a format: [shadow, standard, thinkertoy]: ")
+	typeOfAscii := os.Args[2]
 
-		// read the type
-		fmt.Scan(&typeOfAscii)
-		
-		// check if they did bad shit
-		if typeOfAscii == "shadow" || typeOfAscii == "standard" || typeOfAscii == "thinkertoy" {
-			condition = true
-			break
-		}
-
-		fmt.Println("\nPlease enter a correct type.")
-		
-	}
-	
 	// trim and to lower
 	typeOfAscii = strings.Trim(typeOfAscii, "")
 	typeOfAscii = strings.ToLower(typeOfAscii)
+
+	if typeOfAscii != "shadow" && typeOfAscii != "standard" && typeOfAscii != "thinkertoy" {
+		fmt.Println("Please enter a correct format (shadow, standard, thinkertoy)")
+		os.Exit(1)
+	}
+	
 	inputString = strings.Trim(inputString, "")
 
 	filename := typeOfAscii + ".txt"
