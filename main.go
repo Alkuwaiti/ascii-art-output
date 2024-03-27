@@ -51,6 +51,11 @@ func main() {
 
 	args := flag.Args()
 
+	if len(flag.Args()) != 2 {
+		fmt.Println("Not enough arguments")
+		os.Exit(1)
+	}
+
 	// Access the arg
 	inputString := args[0]
 
