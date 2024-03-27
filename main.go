@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"flag"
 	"fmt"
 	"os"
 	"strings"
@@ -36,20 +37,27 @@ func splitArray(arr []int, splitNum int) [][]int {
     return result
 }
 
-func main() {
+// go run . --output=whatever.txt "<body>\n</body>" standard
 
-	if len(os.Args) != 3 {
-        fmt.Println("Usage: go run . 'your text' 'required arg")
-        os.Exit(1)
-    }
+func main() {
+	// declare a var for the file name
+	var outputFlag string
+
+	// setting the flag
+	flag.StringVar(&outputFlag, "output", "banner.txt", "Name of the file where the output will be")
+
+	// parse the flag
+	flag.Parse()
+
+	args := flag.Args()
 
 	// Access the arg
-	inputString := os.Args[1]
+	inputString := args[0]
 
 	// Replace the escape sequence "\n" with an actual newline character
 	inputString = strings.ReplaceAll(inputString, "\\n", "\n")
 
-	typeOfAscii := os.Args[2]
+	typeOfAscii := args[1]
 
 	// trim and to lower
 	typeOfAscii = strings.Trim(typeOfAscii, "")
@@ -92,7 +100,7 @@ func main() {
         linesFromFile = append(linesFromFile, lineFromFile)
     }
 
-	
+	bigAssString := ""
 	// for every array in the array [[65 108 105] [104 101 108 108 111]] 0 & 1
 	for j := 0; j < len(splittedArrayBasedOn10); j++ {
 
@@ -106,20 +114,26 @@ func main() {
 				positionOfpointer := (asciiRep - 32) * 9 + i
 
 				// print out every line without a new line
-				fmt.Print(linesFromFile[positionOfpointer])
+				bigAssString += linesFromFile[positionOfpointer]
 
 				// if we reach the end of an array, print a new line
 				if k == len(splittedArrayBasedOn10[j]) - 1 {
-					fmt.Println()
+					bigAssString += "\n"
 				}
 			}
 		}
 		// if a specific array in the bigger array is empty, output a new line
 		if len(splittedArrayBasedOn10[j]) == 0 {
-			fmt.Println()
+			bigAssString += "\n"
 		}
 
 	}
+
+	newErr := os.WriteFile(outputFlag, []byte(bigAssString), 0644)
+    if newErr != nil {
+        fmt.Println("Error writing to file:", err)
+        return
+	}	
 	
     // Check for errors during scanning
     if err := scanner.Err(); err != nil {
